@@ -1,0 +1,33 @@
+package com.weather.config;
+
+import com.influxdb.client.InfluxDBClient;
+import com.influxdb.client.InfluxDBClientFactory;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@Getter
+public class InfluxDBConfig {
+
+    @Value("${influxdb.url}")
+    private String url;
+
+    @Value("${influxdb.token}")
+    private String token;
+
+    @Value("${influxdb.org}")
+    private String org;
+
+    @Value("${influxdb.bucket}")
+    private String bucket;
+
+    @Bean
+    public InfluxDBClient influxDBClient() {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalStateException("InfluxDB token is not configured. Please set 'influxdb.token' in application.yml");
+        }
+        return InfluxDBClientFactory.create(url, token.toCharArray(), org, bucket);
+    }
+}
