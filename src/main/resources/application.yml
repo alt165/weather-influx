@@ -1,0 +1,46 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: weather-backend
+
+# Configuración de InfluxDB
+influxdb:
+  url: ${INFLUX_URL}
+  token: ${INFLUX_TOKEN}
+  org: ${INFLUX_ORG}
+  bucket: ${INFLUX_BUCKET}
+
+# Configuración de CORS
+cors:
+  allowed-origins: http://localhost:3000,http://localhost:4200
+  allowed-methods: GET,OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
+
+# Configuración de la aplicación
+weather:
+  query:
+    default-days: 3
+    max-days: 7
+
+# Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+# Logging
+logging:
+  level:
+    com.weather: DEBUG
+    com.influxdb: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
